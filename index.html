@@ -1,0 +1,35 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="中转站模型响应速度与输出流畅度实测"><title>课题组模型表现</title>
+<link rel="icon" href="./assets/favicon.svg"><link rel="stylesheet" href="./assets/site.css">
+<script defer src="./assets/chart.umd.min.js"></script><script defer src="./assets/public.js"></script><script defer src="./assets/overview.js"></script></head>
+<body><header class="top"><div class="top-in"><a class="brand" href="#/overview">模型测速</a><div class="public-top"><span id="public-freshness">读取测试数据…</span><button class="btn btn-sm" id="public-theme">深色</button></div></div></header>
+<main><section class="page active" data-page="overview">
+  <div class="page-h"><div><h1>课题组模型表现</h1></div><div class="page-actions ov-main-filters">
+    <select class="select input-sm" id="ov-hours" aria-label="时间范围"><option value="1">最近1小时</option><option value="6">最近6小时</option><option value="24" selected>最近24小时</option><option value="72">最近72小时</option><option value="168">最近7天</option></select>
+    <select class="select input-sm" id="ov-effort" aria-label="推理强度"><option value="">全部强度</option></select>
+    <input class="input input-sm" id="ov-search" placeholder="搜索模型" aria-label="搜索模型">
+    <button class="btn" id="ov-refresh">刷新</button>
+  </div></div>
+  <details class="ov-options" id="ov-options"><summary>筛选与设置</summary><div class="ov-toolbar">
+    <div class="field ov-wide"><label>测试条件</label><select class="select" id="ov-cohort"><option value="">加载中</option></select></div>
+    <label class="row muted"><input type="checkbox" id="ov-auto" checked>自动刷新</label>
+    <button class="btn btn-sm" id="ov-copy">复制链接</button><button class="btn btn-sm" id="ov-export">导出数据</button><button class="btn btn-sm" id="ov-print">打印</button>
+  </div><div class="field"><label>使用需求</label><select class="select" id="ov-profile"><option value="interactive">日常聊天</option><option value="reasoning">推理任务</option></select></div>
+      <input id="ov-ttfa" type="hidden" value="3"><input id="ov-tps" type="hidden" value="30"><input id="ov-gap" type="hidden" value="1"><button id="ov-apply" hidden>应用</button></details>
+  <div class="ov-section-head"><h2>推荐模型</h2><span class="muted" id="ov-status">加载中</span></div>
+  <div class="ov-picks" id="ov-picks"></div>
+  <div class="ov-layout">
+    <div class="card"><div class="card-h"><h3>首字等待对比</h3><span class="muted">越短越快</span></div><div class="card-b ov-chart"><canvas id="ov-bars"></canvas><div class="empty" id="ov-bars-empty" hidden>暂无数据</div></div></div>
+    <div class="card"><div class="card-h"><h3>响应与输出速度</h3><span class="muted">左上方更快</span></div><div class="card-b ov-chart"><canvas id="ov-scatter"></canvas><div class="empty" id="ov-chart-empty">暂无可比数据</div></div></div>
+  </div>
+  <div class="ov-section-head"><h2>全部模型 <span class="muted" id="ov-result-count"></span></h2><select class="select input-sm" id="ov-sort" aria-label="排序"><option value="fast">综合速度</option><option value="ttfa">首字等待</option><option value="tps">输出速度</option><option value="total">总耗时</option><option value="samples">样本数</option><option value="model">模型名称</option><option value="good">体验达标率</option></select></div>
+  <div class="ov-cards" id="ov-cards"><div class="empty">加载中</div></div>
+  <div class="card" id="ov-detail" hidden><div class="card-h"><h3 id="ov-detail-title"></h3><div id="ov-detail-badges"></div></div><div class="card-b"><div class="ov-detail-grid" id="ov-detail-metrics"></div><ul class="ov-text-list" id="ov-detail-notes"></ul><div class="muted" id="ov-errors"></div></div></div>
+  <details class="card ov-hourly"><summary>按小时查看</summary><div class="tw" id="ov-heatmap"></div></details>
+  <div class="card"><div class="card-b ov-method"><details><summary>评价标准</summary>
+    <div class="tw" id="ov-criteria"></div>
+    <p>推荐按生成100个正文token的预计耗时排序：首字等待中位数 + 100 ÷ 输出速度中位数。每个模型保留最快档位，完整响应率低于90%的结果不推荐。缺少输出速度时，仅按首字等待排序；非流式结果按总耗时排序。</p>
+    <p>失败、重试和截断计入尝试次数。缺少用量、单块返回或输出时段不足50ms的记录不计算输出速度。P90至少需要20次有效计时，P95至少需要100次。</p>
+    <p id="ov-method-sources"></p>
+  </details></div></div>
+</section><footer class="muted" style="margin-top:24px;font-size:11px">本中转站的实测数据 · 时间均为北京时间 · 查看页面不会发起模型请求</footer></main></body></html>
